@@ -1,0 +1,2 @@
+- bisogna controllare se la grid è tutta a DEAD allora break. inutile andare fino al tempo limite 
+- quando finisce il tempo, fare flash (funzione che inverte lo stato delle celle attuali)
