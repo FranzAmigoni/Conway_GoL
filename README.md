@@ -1,5 +1,8 @@
 Conway Game of Life as expalined in the 8th lesson from antirez in this YT channel
 
+Working code is on CodeBlocks, maybe one day I will use it here.
+open() and dup2() are working only if the file is newly created. Not possible to change an existing one;
+
 Seed for The Champions.png
     set_cell(old_grid,18,18,ALIVE);
     set_cell(old_grid,18,19,ALIVE);
