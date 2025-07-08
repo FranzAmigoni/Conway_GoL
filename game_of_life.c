@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <time.h>
+#include <fcntl.h>
 
 #define GRID_COLS 35
 #define GRID_ROWS 35
@@ -100,19 +101,15 @@ int main()
     char old_grid[GRID_CELLS];
     char new_grid[GRID_CELLS];
     set_grid(old_grid,DEAD);
-    set_cell(old_grid,8,8,ALIVE);
-    set_cell(old_grid,8,9,ALIVE);
-    set_cell(old_grid,8,7,ALIVE);
-    set_cell(old_grid,7,8,ALIVE);
-    set_cell(old_grid,9,10,ALIVE);
-    set_cell(old_grid,10,10,ALIVE);
-    set_cell(old_grid,11,10,ALIVE);
-    set_cell(old_grid,11,11,ALIVE);
-    set_cell(old_grid,10,14,ALIVE);
-    set_cell(old_grid,12,12,ALIVE);
-    set_cell(old_grid,13,12,ALIVE);
-    set_cell(old_grid,14,12,ALIVE);
+    set_cell(old_grid,18,18,ALIVE);
+    set_cell(old_grid,18,19,ALIVE);
+    set_cell(old_grid,18,17,ALIVE);
+    set_cell(old_grid,18,16,ALIVE);
+    int redirect_fd = open("redirect_stdout_conway_2.txt", O_CREAT | O_TRUNC | O_WRONLY);
+    dup2(redirect_fd, STDOUT_FILENO);
+    //dup2(STDOUT_FILENO, redirect_fd);
     print_grid(old_grid);
+
     sleep(2);
     time(&start_time);
     int_clock = 0;
@@ -121,18 +118,19 @@ int main()
         compute_new_state(old_grid,new_grid);
         print_grid(new_grid);
         printf("Numero di passi: %d\n", int_clock);
-        usleep(380000);
+        usleep(250000);
         compute_new_state(new_grid,old_grid);
         print_grid(old_grid);
         printf("Numero di passi: %d\n", int_clock);
-        usleep(380000);
+        usleep(250000);
         time(&end_time);
-        if (difftime(end_time, start_time) >= 23.0){
+        if (difftime(end_time, start_time) >= 20.0){
          break;
         }
-//    printf("%d\n", count_living_neighbors(old_grid,10,11));
-//    printf("%d\n", count_living_neighbors(old_grid,10,12));
-//    printf("%d\n", count_living_neighbors(old_grid,10,13));
-}
+        if (memcmp(old_grid, new_grid, sizeof(old_grid)) == 0) {
+    // arrays are equal
+         break;
+        }
+    }
     return 0;
 }
